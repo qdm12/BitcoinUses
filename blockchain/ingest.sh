@@ -8,6 +8,10 @@ bitcoind -dbcache=4096 -daemon
 bitcoin-cli getblockchaininfo | jq -r '.verificationprogress'
 
 # Once download and verification are complete
-hdfs dfs -mkdir -p /user/cloudera/bitcoin/input
-hdfs dfs -put ~./.bitcoin/blocks/blk*.dat /user/cloudera/bitcoin/input
+hdfs dfs -mkdir -p /user/qm301/bitcoin/input
+hdfs dfs -put ~/.bitcoin/blocks/blk*.dat /user/cloudera/bitcoin/input
 rm -fr ~./.bitcoin
+# hdfs dfs -mkdir -p /user/qm301/bitcoin/input
+# hdfs dfs -put ~/.bitcoin/blocks/blk*.dat /user/qm301/bitcoin/input
+# rm -fr ~/blocks/blk*.dat
+

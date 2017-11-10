@@ -1,21 +1,20 @@
 package profiler;
 
+import java.util.List;
 import java.io.IOException;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.io.*;
 import org.zuinnote.hadoop.bitcoin.format.common.BitcoinBlock;
 import org.zuinnote.hadoop.bitcoin.format.common.BitcoinTransaction;
 import org.zuinnote.hadoop.bitcoin.format.common.BitcoinTransactionOutput;
-// import org.zuinnote.hadoop.bitcoin.format.mapreduce.*;
-
-
-import java.util.*;
 
 public class BitcoinProfilerMapper  extends Mapper<BytesWritable, BitcoinBlock, Text, LongWritable> {
 
 @Override
 public void setup(Context context) throws IOException, InterruptedException {
- // nothing to set up
+    // nothing to set up
 }
 
 @Override
@@ -54,7 +53,7 @@ public void map(BytesWritable key, BitcoinBlock value, Context context) throws I
 
 @Override
 public void cleanup(Context context) {
- // nothing to cleanup
+    // nothing to cleanup
 }	    
 
 }

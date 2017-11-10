@@ -2,7 +2,8 @@ package profiler;
 
 import java.io.IOException;
 import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.io.*;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 
 public class BitcoinProfilerReducer extends Reducer<Text, LongWritable, Text, Text> {
 
@@ -26,7 +27,7 @@ public void reduce(Text key, Iterable<LongWritable> values, Context context)
         }
         context.write(
                 new Text(key_str),
-                new Text("Minimum: "+Long.toString(minTime)+"Maximum: "+Long.toString(maxTime))
+                new Text("Minimum: "+Long.toString(minTime)+"; Maximum: "+Long.toString(maxTime))
                 );
         context.write(
                 new Text("Total number of blocks"),

@@ -7,7 +7,8 @@ target/
 dependency-reduced-pom.xml
 .classpath
 .project
-.settings
+.settings/
+bin/
 
 # Python
 __pycache__/

@@ -13,15 +13,15 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         String key = "Period ("+
                      Integer.toString(param.getPeriodDays())+
                      ")";
-        int[] thresholds = param.getThresholds();
-        String value = "< $"+Integer.toString(thresholds[0])+",";
+        double[] thresholds = param.getThresholds();
+        String value = "< $"+Double.toString(thresholds[0])+",";
         if (thresholds.length > 2) {
             for (int i = 1; i < thresholds.length; i++) {
-                value += "$"+Integer.toString(thresholds[i-1])+
-                        " - $"+Integer.toString(thresholds[i])+",";
+                value += "$"+Double.toString(thresholds[i-1])+
+                        " - $"+Double.toString(thresholds[i])+",";
             }
         }
-        value += "> $"+Integer.toString(thresholds[thresholds.length-1]);
+        value += "> $"+Double.toString(thresholds[thresholds.length-1]);
         
         
         context.write(new Text(key), new Text(value));

@@ -15,7 +15,7 @@ import analyzer.Parameters;
 
 public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock, IntWritable, MapWritable> {
     private Parameters params = new Parameters();
-    int thresholds[] = params.getThresholds();
+    double thresholds[] = params.getThresholds();
     
     @Override
     public void setup(Context context) throws IOException, InterruptedException {

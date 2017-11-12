@@ -12,11 +12,27 @@ import java.util.List;
 
 public class Parameters {
     private static final int periodDays = 7;
-    private static List<Double> pricePerPeriod = new ArrayList<Double>();
-    private static HashMap<Integer, List<Double>> pricesPerPeriod = new HashMap<Integer, List<Double>>();
-    
     // Number of transactions for each range of USD per block
-    private int thresholds[] = {1, 5, 30, 100, 300, 1000, 10000};
+    private double thresholds[] = {0.05, 1, 5, 30, 100, 300, 1000, 10000};
+    
+    private static List<Double> pricePerPeriod = new ArrayList<Double>();
+    private static HashMap<Integer, List<Double>> pricesPerPeriod = new HashMap<Integer, List<Double>>();    
+
+    public int getPeriodDays() {
+        return periodDays;
+    }
+    
+    public int getPeriod() {
+        return periodDays * 86400;
+    }
+    
+    public double getPriceAtPeriod(int periodNumber) {
+        return pricePerPeriod.get(periodNumber);
+    }
+    
+    public double[] getThresholds() {
+        return thresholds;
+    }    
        
     private void processPriceLine(String line) {
         String[] data = line.split("\\s+");
@@ -63,20 +79,4 @@ public class Parameters {
             pricePerPeriod.set(period, sum / prices.size());            
         }
     }
-    
-    public int getPeriodDays() {
-        return periodDays;
-    }
-    
-    public int getPeriod() {
-        return periodDays * 86400;
-    }
-    
-    public double getPriceAtPeriod(int periodNumber) {
-        return pricePerPeriod.get(periodNumber);
-    }
-    
-    public int[] getThresholds() {
-        return thresholds;
-    }    
 }

@@ -16,7 +16,7 @@ A big data analytics project on how bitcoins have been used since their launch i
 Refer to [*blockchain/profiling/readme.md*](blockchain/profiling/readme.md)
 
 ### Analyzing the data
-
+Refer to [*blockchain/analysis/readme.md*](blockchain/analysis/readme.md)
 
 ## CoinMap
 

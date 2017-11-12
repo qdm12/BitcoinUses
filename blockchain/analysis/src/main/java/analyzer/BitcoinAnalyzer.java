@@ -14,6 +14,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.zuinnote.hadoop.bitcoin.format.mapreduce.BitcoinBlockFileInputFormat;
 
+
 import analyzer.BitcoinAnalyzerMapper;
 import analyzer.BitcoinAnalyzerReducer;
    
@@ -22,13 +23,14 @@ public class BitcoinAnalyzer extends Configured implements Tool {
         Configuration conf = new Configuration();
         // See more options at https://github.com/ZuInnoTe/hadoopcryptoledger/wiki/Hadoop-File-Format
         conf.set("hadoopcryptoledger.bitcoinblockinputformat.filter.magic","F9BEB4D9");
+        conf.set("mapred.textoutputformat.separator", ",");
         // Let ToolRunner handle generic command-line options
         int res = ToolRunner.run(conf, new BitcoinAnalyzer(), args); 
         System.exit(res);
     }
   
     public int run(String[] args) throws Exception {
-        Job job = new Job();
+        Job job = Job.getInstance(getConf(),"blockchain-analyzer-job");        
         job.setNumReduceTasks(1);
         job.setJarByClass(BitcoinAnalyzer.class);
         job.setJobName("Bitcoin amounts counter");

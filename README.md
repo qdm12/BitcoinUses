@@ -13,10 +13,10 @@ A big data analytics project on how bitcoins have been used since their launch i
 2. Run the [*ingest.sh*](blockchain/ingest.sh) script
 
 ### Profiling the data
-Refer to [*blockchain/profiling/readme.md*](blockchain/profiling/readme.md)
+Refer to [*blockchain/profiling/readme*](blockchain/profiling/readme.md)
 
 ### Analyzing the data
-Refer to [*blockchain/analysis/readme.md*](blockchain/analysis/readme.md)
+Refer to [*blockchain/analysis/readme*](blockchain/analysis/readme.md)
 
 ## CoinMap
 

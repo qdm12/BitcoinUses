@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Parameters {
-    private static final int periodDays = 7;
+    private static final int periodDays = 30;
     // Number of transactions for each range of USD per block
     private double thresholds[] = {0.05, 1, 5, 30, 100, 300, 1000, 10000};
     

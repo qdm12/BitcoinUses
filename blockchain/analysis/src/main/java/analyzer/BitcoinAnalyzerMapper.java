@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 import org.apache.hadoop.io.BytesWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.*;
 import org.zuinnote.hadoop.bitcoin.format.common.BitcoinBlock;
 import org.zuinnote.hadoop.bitcoin.format.common.BitcoinTransaction;
@@ -61,7 +63,7 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
         int period = epochToBitcoinPeriod(value.getTime());
    
         int[] counts = new int[thresholds.length+1]; //+1 for > $1M
-        MapWritable map = new MapWritable();
+        double[] amounts = new double[thresholds.length+1];
         
         List<BitcoinTransaction> transactions = value.getTransactions();
         List<Long> blockAmounts = new ArrayList<Long>();
@@ -70,20 +72,17 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
             for (BitcoinTransactionOutput output : tx.getListOfOutputs()) {
                 txAmounts.add(output.getValue());
             }
-            if (txAmounts.size() == 0) {
-                // no outputs in transaction
-                System.out.println("No Outputs in transaction ! =====");
-                continue; // that does not happen
-            } else if (looksCoinbase(txAmounts, value.getTime())) {
-                // we ignore coinbase transactions
+            // if (txAmounts.size() == 0): Transactions must have one output
+            if (looksCoinbase(txAmounts, value.getTime())) {
+                // ignore coinbase transactions
                 continue;
             } else if (txAmounts.size() == 1) {
-                // one input to one output and no coinbase
-                // must be a transfer of wallet, this is ignored
+                // ignore 1-input -> 1-output transactions
+                // likely to be a transfer of wallet, this is ignored
                 continue;
             }
-            // more than 1 output
-            // we ignore the largest output as being the change
+            // > 1 output
+            // ignore the largest output as being the change
             Long maxAmount = -1L;
             for(Long amount : txAmounts) {
                 if (amount > maxAmount) {
@@ -93,26 +92,38 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
             txAmounts.remove(maxAmount);
             blockAmounts.addAll(txAmounts);
         }
-        double price = currentPricePerSatoshi(period); 
+        double price = currentPricePerSatoshi(period);
         for (Long blockAmount : blockAmounts) {
+            double dollarAmount = blockAmount * price;
             boolean found = false;
             for (int i = 0; i < thresholds.length; i++) {
-                if (blockAmount * price < thresholds[i]) {
+                if (dollarAmount < thresholds[i]) {
                     counts[i]++;
+                    amounts[i] += dollarAmount;
                     found = true;
                     break;
                 }
             }
-            if (!found) {
-                counts[counts.length - 1]++; // huge amount
+            if (!found) { // huge amount
+                counts[counts.length - 1]++;
+                amounts[counts.length - 1] += dollarAmount;
             }
         }
+        MapWritable mapCounts = new MapWritable();
+        MapWritable mapAmounts = new MapWritable();
         for (int bucket = 0; bucket < counts.length; bucket++) {
-            map.put(new IntWritable(bucket),
-                    new IntWritable(counts[bucket]));
+            mapCounts.put(new IntWritable(bucket),
+                          new IntWritable(counts[bucket]));
         }
+        for (int bucket = 0; bucket < amounts.length; bucket++) {
+            mapAmounts.put(new IntWritable(bucket),
+                           new DoubleWritable(amounts[bucket]));
+        }
+        MapWritable map = new MapWritable();
+        map.put(new Text("Counts"), mapCounts);
+        map.put(new Text("Amounts"), mapAmounts);
         // Key : Week where block was found
-        // Value : Map of amount ranges counts of transactions 
+        // Value : Map of 2 maps
     	context.write(new IntWritable(period), map);
     }
 }

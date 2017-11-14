@@ -3,14 +3,14 @@
 ## Results
 - The following is a stacked column chart made with Excel from the raw data:
 
-[![Chart of results](results.png)]()
+[![Chart of results](images/results.png)]()
 
 - Raw results are in [**results.csv**](results.csv)
 
 ## Procedure
 - The following diagram illustrates the whole process
 
-[![Diagram](diagram.png)]()
+[![Diagram](images/diagram.png)]()
 
 **Note that coinbase transactions, change outputs and transaction with a single output are ignored**
 

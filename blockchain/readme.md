@@ -19,3 +19,9 @@
     - Uses the hadoopcryptoledger library to parse the Bitcoin blocks binary data
     - Uses maven to install necessary dependencies
     - See [analysis/**readme.md**](analysis/readme.md) for more information
+4. Import results to a database with Impala
+    - Execute the [analysis/resultsToImpala.sql](analysis/resultsToImpala.sql) script:
+    ```bash
+    impala-shell --quiet -i compute-1-1 -f resultsToImpala.sql
+    ```
+    

@@ -1,6 +1,7 @@
 package analyzer;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.hadoop.mapreduce.*;
@@ -78,8 +79,9 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         for (int i = 0; i < L; i++) {
             resultValue += Integer.toString(totalCounts[i]) + ",";
         }
+        DecimalFormat df = new DecimalFormat("0");
         for (int i = 0; i < L; i++) {
-            resultValue += Integer.toString((int) totalAmounts[i]) + ",";
+            resultValue += df.format(totalAmounts[i]) + ",";
         }
         resultValue = resultValue.substring(0, resultValue.length() - 1);        
         context.write(new Text(resultKey), new Text(resultValue));

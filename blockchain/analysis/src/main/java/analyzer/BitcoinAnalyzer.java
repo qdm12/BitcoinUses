@@ -33,10 +33,10 @@ public class BitcoinAnalyzer extends Configured implements Tool {
         Job job = Job.getInstance(getConf(),"blockchain-analyzer-job");        
         job.setNumReduceTasks(1);
         job.setJarByClass(BitcoinAnalyzer.class);
-        job.setJobName("Bitcoin amounts counter");
+        job.setJobName("Bitcoin analyzer");
         job.setMapOutputKeyClass(IntWritable.class);
         job.setMapOutputValueClass(MapWritable.class);
-        job.setOutputKeyClass(IntWritable.class);
+        job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
         
         job.setMapperClass(BitcoinAnalyzerMapper.class);

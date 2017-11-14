@@ -56,6 +56,8 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
         return periodNumber;
     }
     
+
+    
     @Override
     public void map(BytesWritable key, BitcoinBlock value, Context context) throws IOException, InterruptedException {
         // First Bitcoin block epoch time: 1231006505 seconds

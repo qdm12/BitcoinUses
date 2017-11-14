@@ -3,11 +3,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>analyzer</groupId>
-    <artifactId>blockchain</artifactId>
+    <artifactId>blockchain-analyzer</artifactId>
     <version>1</version>
     <packaging>jar</packaging>
     <name>Bitcoin Blockchain Analyzer</name>
-    <url>https://github.com/qdm12/BitcoinUses</url>
+    <url>https://github.com/qdm12/BitcoinUses/blockchain/analysis</url>
     <build>
         <plugins>
             <plugin>

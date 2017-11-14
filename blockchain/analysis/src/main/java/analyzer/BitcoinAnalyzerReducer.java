@@ -1,6 +1,8 @@
 package analyzer;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.IntWritable;
@@ -8,14 +10,15 @@ import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 
 public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Text, Text> {
+    private Parameters params = new Parameters();
+    
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        Parameters param = new Parameters();
-        double[] thresholds = param.getThresholds();
+        double[] thresholds = params.getThresholds();
         
         // First line legend
         String key = "Period ("+
-                Integer.toString(param.getPeriodDays())+
+                Integer.toString(params.getPeriodDays())+
                 ")";
         String value = "Counts of outputs per USD range,";
         for (int i = 1; i < thresholds.length+1; i++) {
@@ -45,6 +48,13 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         context.write(new Text(key), new Text(value));
     }
     
+    private String periodToDate(int period) {
+        long offset = this.params.getPeriod() * period;
+        long epochMilliseconds = (1231006505 + offset) * 1000;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(epochMilliseconds));
+    }
+    
     @Override
     public void reduce(IntWritable key, Iterable<MapWritable> values, Context context)
          throws IOException, InterruptedException {
@@ -63,7 +73,7 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
                 totalAmounts[i] += amount.get();
             }
         }
-        String resultKey = key.toString();
+        String resultKey = periodToDate(key.get());
         String resultValue = "";
         for (int i = 0; i < L; i++) {
             resultValue += Integer.toString(totalCounts[i]) + ",";

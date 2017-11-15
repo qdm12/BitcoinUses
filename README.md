@@ -1,6 +1,9 @@
 # BitcoinUses
 A big data analytics project on how bitcoins have been used since their launch in 2009
 
+## Results
+Refer to [*results/*](results) for website access and more information
+
 ## Data sources
 - [Bitcoin blockchain](https://blockchain.info/)
 - [CoinMap](https://coinmap.org/welcome/)
@@ -9,8 +12,7 @@ A big data analytics project on how bitcoins have been used since their launch i
 ## Bitcoin blockchain
 
 ### Ingest the data
-1. Check the [*blockchain/readme*](blockchain/readme.md)
-2. Run the [*ingest.sh*](blockchain/ingest.sh) script
+Refer to [*blockchain/readme*](blockchain/readme.md), section 1
 
 ### Profiling the data
 Refer to [*blockchain/profiling/readme*](blockchain/profiling/readme.md)
@@ -19,13 +21,11 @@ Refer to [*blockchain/profiling/readme*](blockchain/profiling/readme.md)
 Refer to [*blockchain/analysis/readme*](blockchain/analysis/readme.md)
 
 ## CoinMap
-
 ### Ingest the data
-
 ### Profiling the data
+### Analyzing the data
 
 ## Reddit
-
 ### Ingest the data
-
 ### Profiling the data
+### Analyzing the data

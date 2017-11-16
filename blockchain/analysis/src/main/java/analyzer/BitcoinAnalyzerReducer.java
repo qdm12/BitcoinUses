@@ -16,6 +16,8 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         double[] thresholds = params.getThresholds();
+        DecimalFormat df = new DecimalFormat();
+        df.setDecimalSeparatorAlwaysShown(false);
         
         // First line legend
         String key = "Period ("+
@@ -33,8 +35,7 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         context.write(new Text(key), new Text(value));
         
         // Second line legend
-        DecimalFormat df = new DecimalFormat("0");
-        df.setDecimalSeparatorAlwaysShown(false);
+
         value = "< $"+df.format(thresholds[0])+",";
         for (int i = 1; i < thresholds.length; i++) {
             value += "$"+df.format(thresholds[i-1])+

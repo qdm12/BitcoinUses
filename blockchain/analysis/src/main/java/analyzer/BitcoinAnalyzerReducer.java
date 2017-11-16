@@ -20,7 +20,7 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         // First line legend
         String key = "Period ("+
                 Integer.toString(params.getPeriodDays())+
-                ")";
+                " days)";
         String value = "Counts of outputs per USD range,";
         for (int i = 1; i < thresholds.length+1; i++) {
             value += ",";
@@ -33,20 +33,22 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         context.write(new Text(key), new Text(value));
         
         // Second line legend
-        value = "< $"+Double.toString(thresholds[0])+",";
+        DecimalFormat df = new DecimalFormat("0");
+        df.setDecimalSeparatorAlwaysShown(false);
+        value = "< $"+df.format(thresholds[0])+",";
         for (int i = 1; i < thresholds.length; i++) {
-            value += "$"+Double.toString(thresholds[i-1])+
-                    " - $"+Double.toString(thresholds[i])+",";
+            value += "$"+df.format(thresholds[i-1])+
+                    " - $"+df.format(thresholds[i])+",";
         }
-        value += "> $"+Double.toString(thresholds[thresholds.length-1]);
+        value += "> $"+df.format(thresholds[thresholds.length-1]);
         value += ",";
-        value += "< $"+Double.toString(thresholds[0])+",";
+        value += "< $"+df.format(thresholds[0])+",";
         for (int i = 1; i < thresholds.length; i++) {
-            value += "$"+Double.toString(thresholds[i-1])+
-                    " - $"+Double.toString(thresholds[i])+",";
+            value += "$"+df.format(thresholds[i-1])+
+                    " - $"+df.format(thresholds[i])+",";
         }
-        value += "> $"+Double.toString(thresholds[thresholds.length-1]);
-        context.write(new Text(key), new Text(value));
+        value += "> $"+df.format(thresholds[thresholds.length-1]);
+    context.write(new Text(key), new Text(value));
     }
     
     private String periodToDate(int period) {

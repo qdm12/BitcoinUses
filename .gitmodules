@@ -1,3 +1,6 @@
 [submodule "coinmap-etl"]
 	path = coinmap-etl
 	url = https://github.com/sadam0930/coinmap-etl
+[submodule "Reddit"]
+	path = Reddit
+	url = https://github.com/acpg/Reddit

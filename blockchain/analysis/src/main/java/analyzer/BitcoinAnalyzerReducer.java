@@ -13,12 +13,15 @@ import org.apache.hadoop.io.Text;
 public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Text, Text> {
     private Parameters params = new Parameters();
     
+    private String formatNumber(double value) {
+        DecimalFormat df = new DecimalFormat("0.#");
+        return df.format(value);
+    }
+    
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         double[] thresholds = params.getThresholds();
-        DecimalFormat df = new DecimalFormat();
-        df.setDecimalSeparatorAlwaysShown(false);
-        
+
         // First line legend
         String key = "Period ("+
                 Integer.toString(params.getPeriodDays())+
@@ -35,20 +38,20 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         context.write(new Text(key), new Text(value));
         
         // Second line legend
-
-        value = "< $"+df.format(thresholds[0])+",";
+        key = Integer.toString(params.getPeriodDays());
+        value = "< $"+formatNumber(thresholds[0])+",";
         for (int i = 1; i < thresholds.length; i++) {
-            value += "$"+df.format(thresholds[i-1])+
-                    " - $"+df.format(thresholds[i])+",";
+            value += "$"+formatNumber(thresholds[i-1])+
+                    " - $"+formatNumber(thresholds[i])+",";
         }
-        value += "> $"+df.format(thresholds[thresholds.length-1]);
+        value += "> $"+formatNumber(thresholds[thresholds.length-1]);
         value += ",";
-        value += "< $"+df.format(thresholds[0])+",";
+        value += "< $"+formatNumber(thresholds[0])+",";
         for (int i = 1; i < thresholds.length; i++) {
-            value += "$"+df.format(thresholds[i-1])+
-                    " - $"+df.format(thresholds[i])+",";
+            value += "$"+formatNumber(thresholds[i-1])+
+                    " - $"+formatNumber(thresholds[i])+",";
         }
-        value += "> $"+df.format(thresholds[thresholds.length-1]);
+        value += "> $"+formatNumber(thresholds[thresholds.length-1]);
     context.write(new Text(key), new Text(value));
     }
     

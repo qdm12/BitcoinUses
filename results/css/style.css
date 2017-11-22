@@ -51,6 +51,7 @@ section {
 }
 #blockchain {
     background: #b0ffe9;
+    height:200%;
 }
 #reddit {
     background: #ffba92;
@@ -72,17 +73,33 @@ section {
 }
 
 #blockchainCounts {
-    position: absolute;
-    color: white;
-    top: 10%;
-    height: 40%;
-    left: 10%;
-    width: 80%; 
+    height: 20%;
+    margin: auto;
+    padding-top: 4%;
+    width: 100%;
+    z-index: 1;
+}
+#blockchainCountsPercent {
+    height: 20%;
+    margin: auto;
+    width: 100%;
+    z-index: 1;
 }
 #blockchainAmounts {
-    position: absolute;
-    top: 10%;
-    height: 40%;
-    left: 10%;
-    width: 80%; 
+    height: 20%;
+    margin: auto;
+    width: 100%;
+    z-index: 1;
+}
+
+#blockchainAmountsPercent {
+    height: 20%;
+    margin: auto;
+    width: 100%;
+    z-index: 1;
+}
+
+.ct-label.ct-label {
+    color: black;
+    font-size:0.6vmax;
 }

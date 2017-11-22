@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Bitcoin Uses</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-3.0.0.min.js"></script>
-    <script src="js/billboard.pkgd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/script.js"></script>
 </head>
@@ -21,8 +21,12 @@
 
 </section>
 <section id="blockchain">
-    <div id="blockchainCounts"></div>
-    <div id="blockchainAmounts"></div>
+    <div class="fullcontainer">
+        <div id="blockchainCounts"></div>
+        <div id="blockchainCountsPercent"></div>
+        <div id="blockchainAmounts"></div>
+        <div id="blockchainAmountsPercent"></div>
+    </div>
 </section>
 <section id="reddit">
     <div id="redditChart"></div>

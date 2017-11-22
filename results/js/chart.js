@@ -1,6 +1,6 @@
-var blockchainCounts = [];
-var blockchainAmounts = [];
-var blockchainPeriods = ["x"]; // x for x axis
+var blockchainCounts = []; // per period
+var blockchainAmounts = []; // per period
+var blockchainPeriods = [];
 var blockchainRanges = [];
 
 function getBlockchainResults() { // execute first
@@ -17,8 +17,12 @@ function getBlockchainResults() { // execute first
     });
 }
 
+function transpose(array2D) {
+    return array2D[0].map(function (_, c) { return array2D.map(function (r) { return r[c]; }); });
+}
+
 function parseBlockchainResults(data) {
-    var i;
+    var i, j;
     var rows = data.split(/\r?\n|\r/);
     legend1 = rows[0].split(',');
     legend2 = rows[1].split(',');
@@ -30,122 +34,73 @@ function parseBlockchainResults(data) {
     for (i = 0; i < rows.length - 1; i++) {
         row = rows[i].split(',');
         blockchainPeriods.push(row[0]);
-    }
-
-    for (j = 0; j < blockchainRanges.length; j++) { // skips the date
-        blockchainCounts.push([legend2[j+1]]);
-        blockchainAmounts.push([legend2[j+1]]);
-        for (i = 0; i < rows.length - 1; i++) {
-            row = rows[i].split(',');
-            blockchainCounts[j].push(Number(row[j + 1]));
-            blockchainAmounts[j].push(Number(row[j + blockchainRanges.length]));
+        blockchainCounts.push([row[0]]);
+        blockchainAmounts.push([row[0]]);
+        for (j = 1; j < blockchainRanges.length + 1; j++) {
+            blockchainCounts[i].push(Number(row[j]));
+            blockchainAmounts[i].push(Number(row[j + blockchainRanges.length]));
         }
     }
 }
 
 function renderMixed() {
-    var chart = bb.generate({
-        bindto: "#mixedChart",
-        data: {
-            type: "bar",
-            columns: [
-                ["data1", 30, 200, 100, 170, 150, 250],
-                ["data2", 130, 100, 140, 35, 110, 50]
-            ]
-        }
-    });
+
 }
 
 function renderBlockchain() {
-    var counts = bb.generate({
-        bindto: "#blockchainCounts",
-        data: {
-            type: "bar",
-            columns: blockchainCounts,
-            groups: [blockchainRanges]
-        },
-        legend: {
-            position: "right"
-        },
-        axis: {
-            x: {
-                label: "Period"
-            },
-            y: {
-                label: "Number of outputs"
-            },
-        },
-        tooltip: {
-            grouped: false,
-            format: {
-                title: function (d) { return 'Data for month ' + d + ' since 2009'; },
-                value: function (value, ratio, id) {
-                  return value;
-              }
-            }
-        },
-    });
-    var amounts = bb.generate({
-        bindto: "#blockchainAmounts",
-        data: {
-            type: "bar",
-            columns: blockchainAmounts,
-            groups: [blockchainRanges]
-        },
-        legend: {
-            position: "right"
-        },
-        axis: {
-            x: {
-                label: "Period"
-            },
-            y: {
-                label: "Number of outputs"
-            },
-        },
-        tooltip: {
-            grouped: false,
-            format: {
-                title: function (d) { return 'Data for month ' + d + ' since 2009'; },
-                value: function (value, ratio, id) {
-                  return value;
-              }
-            }
-        },
-    });
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+    function drawCharts() {
+        var data = google.visualization.arrayToDataTable(
+            [['Period'].concat(blockchainRanges)] // legend
+            .concat(blockchainCounts) // data
+        );
+        var options = {
+            title:'Number of outputs per $ ranges per month since 2009',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of outputs'},
+            isStacked: 'absolute'
+        };
+        var chartCounts = new google.visualization.SteppedAreaChart(document.getElementById('blockchainCounts'));
+        chartCounts.draw(data, options);
+        options = {
+            title:'Percentage of outputs per $ ranges per month since 2009',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Percentage of number of outputs'},
+            isStacked: 'percent'
+        };
+        var chartCountsPercents = new google.visualization.SteppedAreaChart(document.getElementById('blockchainCountsPercent'));
+        chartCountsPercents.draw(data, options); 
+
+        data = google.visualization.arrayToDataTable(
+            [['Period'].concat(blockchainRanges)] // legend
+            .concat(blockchainAmounts) // data
+        );
+        var options = {
+            title:'$ transferred for each output $ range per month since 2009',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'USD amounts'},
+            isStacked: 'absolute'
+        };
+        var chartAmounts = new google.visualization.SteppedAreaChart(document.getElementById('blockchainAmounts'));
+        chartAmounts.draw(data, options);
+        options = {
+            title:'Percentage of $ transferred for each output $ range per month since 2009',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Percentage of total USD transferred'},
+            isStacked: 'percent'
+        };
+        var chartAmountsPercents = new google.visualization.SteppedAreaChart(document.getElementById('blockchainAmountsPercent'));
+        chartAmountsPercents.draw(data, options); 
+    }
 }
 
 function renderReddit() {
-    var chart = bb.generate({
-        bindto: "#redditChart",
-        data: {
-            type: "bar",
-            columns: [
-                ["x", "www.site1.com", "www.site2.com", "www.site3.com", "www.site4.com"],
-                ["download", 30, 200, 100, 400],
-                ["loading", 90, 100, 140, 200]
-            ], //blockchainAmounts,
-            groups: [
-                [
-                  "download",
-                  "loading"
-                ]
-              ],
-        }
-    });
+
 }
 
 function renderCoinmap() {
-    var chart = bb.generate({
-        bindto: "#coinmapChart",
-        data: {
-            type: "bar",
-            columns: [
-                ["data1", 30, 200, 100, 170, 150, 250],
-                ["data2", 130, 100, 140, 35, 110, 50]
-            ]
-        }
-    });
+
 }
 
 

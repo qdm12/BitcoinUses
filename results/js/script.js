@@ -50,8 +50,8 @@ $(document).ready( function() { /* executes first */
 window.onload = function(){ /* executes secondly */
     getBlockchainResults();
     smooth_scrolling();
-    renderReddit();
 };
 
 $(window).resize(function() {
+    renderBlockchain();
 });

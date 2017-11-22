@@ -14,8 +14,9 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
     private Parameters params = new Parameters();
     
     private String formatNumber(double value) {
-        DecimalFormat df = new DecimalFormat("0.#");
-        return df.format(value);
+        String s = Double.toString(value);
+        s = s.indexOf(".") < 0 ? s : s.replaceAll("0*$", "").replaceAll("\\.$", "");
+        return s;
     }
     
     @Override

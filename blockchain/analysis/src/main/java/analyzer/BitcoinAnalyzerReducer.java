@@ -74,21 +74,21 @@ public class BitcoinAnalyzerReducer extends Reducer<IntWritable, MapWritable, Te
         for (MapWritable map : values) {
             mapCounts = (MapWritable) map.get(new Text("Counts"));
             mapAmounts = (MapWritable) map.get(new Text("Amounts"));
-            for (int i = 0; i < L; i++) {
-                IntWritable count = (IntWritable) mapCounts.get(new IntWritable(i));
-                totalCounts[i] += count.get();
-                DoubleWritable amount = (DoubleWritable) mapAmounts.get(new IntWritable(i));
-                totalAmounts[i] += amount.get();
+            for (int bucket = 0; bucket < L; bucket++) {
+                IntWritable count = (IntWritable) mapCounts.get(new IntWritable(bucket));
+                totalCounts[bucket] += count.get();
+                DoubleWritable amount = (DoubleWritable) mapAmounts.get(new IntWritable(bucket));
+                totalAmounts[bucket] += amount.get();
             }
         }
         String resultKey = periodToDate(key.get());
         String resultValue = "";
-        for (int i = 0; i < L; i++) {
-            resultValue += Integer.toString(totalCounts[i]) + ",";
+        for (int bucket = 0; bucket < L; bucket++) {
+            resultValue += Integer.toString(totalCounts[bucket]) + ",";
         }
         DecimalFormat df = new DecimalFormat("0");
-        for (int i = 0; i < L; i++) {
-            resultValue += df.format(totalAmounts[i]) + ",";
+        for (int bucket = 0; bucket < L; bucket++) {
+            resultValue += df.format(totalAmounts[bucket]) + ",";
         }
         resultValue = resultValue.substring(0, resultValue.length() - 1);        
         context.write(new Text(resultKey), new Text(resultValue));

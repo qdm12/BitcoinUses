@@ -3,7 +3,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     isMobile = true;
 }
 
-function smooth_scrolling() {
+function smoothScrolling() {
     $('a').click(function(){
         $('html, body').animate({
             scrollTop: $( $(this).attr('href') ).offset().top
@@ -12,7 +12,41 @@ function smooth_scrolling() {
     });
 }
 
-function banner_opacity() {
+function animateTitleWord(parent, wordIndex, period) {
+    // parent is title or subtitle
+    $("#introduction #" + parent + " #word" + wordIndex.toString())
+    .animate({
+        "opacity": "1.00",
+    }, period / 2, function() {
+        $("#introduction #" + parent + " #word" + wordIndex.toString()).animate({
+            "opacity": "0.75",
+        }, period * 10);
+    });
+}
+
+function animateTitle(period) {
+    for (i = 1; i <= 3; i++) {
+        setTimeout(function(index, period){
+            animateTitleWord("title", index, period);
+        }, i*period, i, period);
+    }
+    for (i = 1; i <= 6; i++) {
+        setTimeout(function(index, period){
+            animateTitleWord("subtitle", index, period);
+        }, 3*period + i*0.5*period, i, period);
+    }
+}
+
+function animateTitleRepeat(period) {
+    animateTitle(period);
+    setInterval(function(){
+        animateTitle(period);
+    }, 11*period);
+}
+
+
+
+function bannerOpacity() {
     var banner_opacity_mouseover = 0.93;
     var banner_opacity_mouseout = 0.66;
     var banner = $('#navigation_bar');
@@ -39,7 +73,7 @@ function banner_opacity() {
 }
 
 $(document).ready( function() { /* executes first */
-    banner_opacity();
+    bannerOpacity();
     if(isMobile){
         console.log('Mobile detected');
     } else {
@@ -49,9 +83,11 @@ $(document).ready( function() { /* executes first */
 
 window.onload = function(){ /* executes secondly */
     getBlockchainResults();
-    smooth_scrolling();
+    smoothScrolling();
+    animateTitleRepeat(800);
 };
 
 $(window).resize(function() {
-    renderBlockchain();
+    resizeBlockchainCharts();
+    drawSectionCharts("blockchain");
 });

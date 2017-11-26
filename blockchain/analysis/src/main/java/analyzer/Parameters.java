@@ -76,7 +76,11 @@ public class Parameters {
             for (Double price : prices) {
                 sum += price;
             }
-            pricePerPeriod.set(period, sum / prices.size());            
+            Double periodPrice = sum / prices.size();
+            if (periodPrice == 0) { // early days of Bitcoin
+                periodPrice = 0.05; 
+            }
+            pricePerPeriod.set(period, periodPrice);            
         }
     }
 }

@@ -74,7 +74,6 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
             for (BitcoinTransactionOutput output : tx.getListOfOutputs()) {
                 txAmounts.add(output.getValue());
             }
-            // if (txAmounts.size() == 0): Transactions must have one output
             if (looksCoinbase(txAmounts, value.getTime())) {
                 // ignore coinbase transactions
                 continue;
@@ -116,16 +115,14 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
         for (int bucket = 0; bucket < counts.length; bucket++) {
             mapCounts.put(new IntWritable(bucket),
                           new IntWritable(counts[bucket]));
-        }
-        for (int bucket = 0; bucket < amounts.length; bucket++) {
             mapAmounts.put(new IntWritable(bucket),
                            new DoubleWritable(amounts[bucket]));
         }
         MapWritable map = new MapWritable();
         map.put(new Text("Counts"), mapCounts);
         map.put(new Text("Amounts"), mapAmounts);
-        // Key : Week where block was found
-        // Value : Map of 2 maps
+        // Key : Period of block
+        // Value : Map of mapCounts and mapAmounts
     	context.write(new IntWritable(period), map);
     }
 }

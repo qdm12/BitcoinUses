@@ -1,45 +1,67 @@
-var blockchainCounts = []; // per period
-var blockchainAmounts = []; // per period
-var blockchainPeriods = [];
-var blockchainRanges = [];
+var Data = {
+    blockchain: {
+        ranges: [],
+        periods: [],
+        counts: [], // per period
+        amounts: [], // per period
+    },
+    reddit: {
+
+    },
+    coinmap: {
+        types: [],
+        periods: [],
+        counts: [], // per period
+    }   
+};
 
 var Charts = {
-    "blockchain": {
-        "counts": {
+    blockchain: {
+        counts: {
             chart: null,
             data: null,
             options: null,
         },
-        "countspercent": {
+        countspercent: {
             chart: null,
             data: null,
             options: null,
         },
-        "amounts": {
+        amounts: {
             chart: null,
             data: null,
             options: null,
         },
-        "amountspercent": {
+        amountspercent: {
             chart: null,
             data: null,
             options: null,
         },
-        "procedure": {
+        procedure: {
             chart: null,
             data: null,
             options: null,
         },
     },
-    "reddit": {
-        "procedure": {
+    reddit: {
+        procedure: {
             chart: null,
             data: null,
             options: null,
-        },        "procedure":null,
+        },
     },
-    "coinmap": {
-        "procedure": {
+    coinmap: {
+        counts: {
+            chart: null,
+            data: null,
+            options: null,
+        },
+        countspercent: {
+            chart: null,
+            data: null,
+            options: null,
+        },
+        procedure: {
             chart: null,
             data: null,
             options: null,
@@ -84,11 +106,27 @@ function getBlockchainResults() { // execute first
         dataType: 'text',
     })
     .done(function(data) {
+        resizeBlockchainCharts();
         parseBlockchainResults(data);
         configureBlockchainCharts();
     })
     .fail(function(data) {
         alert("Blockchain raw results were not found !");
+    });
+}
+
+function getCoinmapResults() {
+    return $.ajax({
+        url: 'https://raw.githubusercontent.com/sadam0930/coinmap-etl/master/coinmap-counts.csv',
+        dataType: 'text',
+    })
+    .done(function(data) {
+        resizeCoinmapCharts();
+        parseCoinmapResults(data);
+        configureCoinmapCharts();
+    })
+    .fail(function(data) {
+        alert("Coinmap raw results were not found !");
     });
 }
 
@@ -103,21 +141,50 @@ function parseBlockchainResults(data) {
     legend2 = rows[1].split(',');
     rows.shift();
     rows.shift();
-    for (i = 0; i < (legend2.length - 1)/2; i++) {
-        blockchainRanges.push(legend2[i+1]); // skips period
+    for (i = 1; i < 1+(legend2.length - 1)/2; i++) {
+        Data.blockchain.ranges.push(legend2[i]);
     }
-    for (i = 0; i < rows.length - 1; i++) {
+    for (i = 0; i < rows.length - 1; i++) { // skips uncomplete last period
         row = rows[i].split(',');
         period = row[0].split('-');
         period = intToMonth(period[1]) + ' ' + period[0];
-        blockchainPeriods.push(period);
-        blockchainCounts.push([period]);
-        blockchainAmounts.push([period]);
-        for (j = 1; j < blockchainRanges.length + 1; j++) {
-            blockchainCounts[i].push(Number(row[j]));
-            blockchainAmounts[i].push(Number(row[j + blockchainRanges.length]));
+        Data.blockchain.periods.push(period);
+        Data.blockchain.counts.push([period]);
+        Data.blockchain.amounts.push([period]);
+        for (j = 1; j < Data.blockchain.ranges.length + 1; j++) {
+            Data.blockchain.counts[i].push(Number(row[j]));
+            Data.blockchain.amounts[i].push(Number(row[j + Data.blockchain.ranges.length]));
         }
     }
+}
+
+function parseCoinmapResults(data) {
+    var i, j, k;
+    var rows = data.split(/\r?\n|\r/);
+    legend = rows[0].split(',');
+    rows.shift();
+    for (i = 1; i < legend.length - 1; i++) { // ignores grand total
+        Data.coinmap.types.push(legend[i]);
+    }
+    for (i = 0; i < rows.length - 1; i++) { // ignores grand total
+        row = rows[i].split(',');
+        period = row[0].split('-');
+        period = intToMonth(period[1]) + ' ' + period[0];
+        Data.coinmap.periods.push(period);
+        Data.coinmap.counts.push([period]);
+        for (j = 1; j < Data.coinmap.types.length+1; j++) { // ignores grand total
+            Data.coinmap.counts[i].push(Number(row[j]));
+        }
+    }
+
+    // Make the counts cumulative
+    /*for (i = 0; i < Data.coinmap.counts.length; i++) {
+        for (j = 1; j < Data.coinmap.types.length; j++) {
+            for (k = 0; k < i; k++) {
+                Data.coinmap.counts[i][j] += Data.coinmap.counts[k][j];
+            }
+        }
+    }*/
 }
 
 function percentToPx(percent, dimension) {
@@ -133,14 +200,22 @@ function percentToPx(percent, dimension) {
 }
 
 function resizeBlockchainCharts() {
-    $("#blockchain #counts").css({
-        'margin-top': $(navigation_bar).height()
-    });
-    $("#blockchain #counts,#countspercent,#amounts,#amountspercent").css({
+    $("#blockchainCounts,#blockchainCountspercent,#blockchainAmounts,#blockchainAmountspercent").css({
         width: percentToPx(100, "w"),
         height: percentToPx(50, "h"),
     });
-    $("#blockchain #procedure").css({
+    $("#blockchainProcedure").css({
+        width: percentToPx(100, "w"),
+        height: percentToPx(50, "h"),
+    });
+}
+
+function resizeCoinmapCharts() {
+    $("#coinmapCounts,#coinmapCountspercent").css({
+        width: percentToPx(100, "w"),
+        height: percentToPx(50, "h"),
+    });
+    $("#coinmapProcedure").css({
         width: percentToPx(100, "w"),
         height: percentToPx(50, "h"),
     });
@@ -158,17 +233,16 @@ function drawSectionCharts(section) {
 }
 
 function configureBlockchainCharts() {
-    resizeBlockchainCharts();
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawCharts);
     function drawCharts() {
         // Monthly number of outputs per USD range
         Charts.blockchain.counts.chart = new google.visualization.SteppedAreaChart(
-            document.getElementById('counts')
+            document.getElementById('blockchainCounts')
         );
         Charts.blockchain.counts.data = google.visualization.arrayToDataTable(
-            [['Period'].concat(blockchainRanges)] // legend
-            .concat(blockchainCounts) // data
+            [['Period'].concat(Data.blockchain.ranges)] // legend
+            .concat(Data.blockchain.counts) // data
         );
         Charts.blockchain.counts.options = {
             title:'Monthly number of outputs per USD range',
@@ -179,7 +253,7 @@ function configureBlockchainCharts() {
 
         // Monthly percentage of outputs per USD range
         Charts.blockchain.countspercent.chart = new google.visualization.SteppedAreaChart(
-            document.getElementById('countspercent')
+            document.getElementById('blockchainCountspercent')
         );
         Charts.blockchain.countspercent.data = Charts.blockchain.counts.data;
         Charts.blockchain.countspercent.options = {
@@ -191,11 +265,11 @@ function configureBlockchainCharts() {
         
         // Monthly USD transferred per output USD range
         Charts.blockchain.amounts.chart = new google.visualization.SteppedAreaChart(
-            document.getElementById('amounts')
+            document.getElementById('blockchainAmounts')
         );
         Charts.blockchain.amounts.data = google.visualization.arrayToDataTable(
-            [['Period'].concat(blockchainRanges)] // legend
-            .concat(blockchainAmounts) // data
+            [['Period'].concat(Data.blockchain.ranges)] // legend
+            .concat(Data.blockchain.amounts) // data
         );
         Charts.blockchain.amounts.options = {
             title:'Monthly USD transferred per output USD range',
@@ -206,7 +280,7 @@ function configureBlockchainCharts() {
 
         // Monthly percentage of USD transferred per output USD range
         Charts.blockchain.amountspercent.chart = new google.visualization.SteppedAreaChart(
-            document.getElementById('amountspercent')
+            document.getElementById('blockchainAmountspercent')
         );
         Charts.blockchain.amountspercent.data = Charts.blockchain.amounts.data;
         Charts.blockchain.amountspercent.options = {
@@ -217,20 +291,49 @@ function configureBlockchainCharts() {
         };
 
         // Procedure
-        var $ = go.GraphObject.make;
-        var myDiagram = $(go.Diagram, "procedure");
+        //var $ = go.GraphObject.make;
+        //var myDiagram = $(go.Diagram, "procedure");
 
         drawSectionCharts("blockchain");
     }
 }
 
-function renderReddit() {
+function configureCoinmapCharts() {
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+    function drawCharts() {
+        // Monthly number of venues per venue type
+        Charts.coinmap.counts.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('coinmapCounts')
+        );
+        Charts.coinmap.counts.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(Data.coinmap.types)] // legend
+            .concat(Data.coinmap.counts) // data
+        );
+        Charts.coinmap.counts.options = {
+            title:'Monthly number of venues per venue type',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of venues'},
+            isStacked: 'absolute'
+        };
 
+        // Monthly percentage of venues per venue type
+        Charts.coinmap.countspercent.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('coinmapCountspercent')
+        );
+        Charts.coinmap.countspercent.data = Charts.coinmap.counts.data;
+        Charts.coinmap.countspercent.options = {
+            title:'Monthly percentage of venues per venue type',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Percentage of number of venues'},
+            isStacked: 'percent'
+        };
+
+        drawSectionCharts("coinmap");
+    }
 }
 
-function renderCoinmap() {
 
-}
 
 
 

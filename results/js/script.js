@@ -77,12 +77,13 @@ $(document).ready( function() { /* executes first */
     if(isMobile){
         console.log('Mobile detected');
     } else {
-        console.log('Desktop detected.');
+        console.log('Desktop detected');
     }
 });
 
 window.onload = function(){ /* executes secondly */
     getBlockchainResults();
+    getCoinmapResults();
     smoothScrolling();
     animateTitleRepeat(800);
 };
@@ -90,4 +91,6 @@ window.onload = function(){ /* executes secondly */
 $(window).resize(function() {
     resizeBlockchainCharts();
     drawSectionCharts("blockchain");
+    resizeCoinmapCharts();
+    drawSectionCharts("coinmap");
 });

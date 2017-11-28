@@ -56,15 +56,15 @@ html, body {margin:0;padding:0;height:100%;}
     margin-top: 1vh;
     text-align: center;
 }
-.title .letter{
-  display: inline-block;
-  font-family: 'Lato', sans-serif;
-  font-weight: 1000;
-  position: relative;
-  color: rgb(255, 255, 255);
-  transform-style: preserve-3d;
-  perspective: 400;
-  z-index: 1;
+.title .letter {
+    position: relative;
+    display: inline-block;
+    font-family: 'Lato', sans-serif;
+    font-weight: 1000;
+    color: rgb(255, 255, 255);
+    transform-style: preserve-3d;
+    perspective: 400;
+    z-index: 1;
 }
 #introduction #title .letter {
     font-size: 4vw;
@@ -73,6 +73,9 @@ html, body {margin:0;padding:0;height:100%;}
 #introduction #subtitle .letter {
     font-size: 2vw;
     margin-right: 0.15vw;
+}
+#introduction .letter:before{
+    color: rgb(255, 172, 82);
 }
 #introduction [id*="word"] {
     display:inline-block;
@@ -85,54 +88,53 @@ html, body {margin:0;padding:0;height:100%;}
     margin-right:1%;
 }
 .title .letter:before, .letter:after{
-  position:absolute;
-  content: attr(data-letter);
-  transform-origin: top left;
-  top:0;
-  left:0;
+    position:absolute;
+    content: attr(data-letter);
+    transform-origin: top left;
+    top:0;
+    left:0;
 }
 .title .letter, .letter:before, .letter:after{
-  transition:all 0.3s ease-in-out;
-  -webkit-transition:all 0.3s ease-in-out;
-  -moz-transition:all 0.3s ease-in-out;
-  -o-transition:all 0.3s ease-in-out;
-  -ms-transition:all 0.3s ease-in-out;
+    transition:all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+    -ms-transition:all 0.3s ease-in-out;
 }
 .title .letter:before{
-  color: rgb(255, 172, 82);
-  text-shadow: 
-    -1px 0px 1px rgba(255,255,255, 0.8),
-    1px 0px 1px rgba(255, 255, 255, 0.8);
-  z-index: 3;
-  transform:
-    rotateX(0deg)
-    rotateY(-15deg)
-    rotateZ(0deg);
+    text-shadow: 
+        -1px 0px 1px rgba(255,255,255, 0.8),
+        1px 0px 1px rgba(255, 255, 255, 0.8);
+    z-index: 3;
+    transform:
+        rotateX(0deg)
+        rotateY(-15deg)
+        rotateZ(0deg);
 }
 .title .letter:after{
-  color: rgba(0,0,0,.11);
-  z-index:2;
-  transform:
-    scale(1.08,1)
-    rotateX(0deg)
-    rotateY(0deg)
-    rotateZ(0deg)
-    skew(0deg,1deg);
+    color: rgba(0,0,0,.11);
+    z-index:2;
+    transform:
+        scale(1.08,1)
+        rotateX(0deg)
+        rotateY(0deg)
+        rotateZ(0deg)
+        skew(0deg,1deg);
 }
 .title .letter:hover:before{
-  color: #ffc273;
-  transform:
-    rotateX(0deg)
-    rotateY(-40deg)
-    rotateZ(0deg);
+    color: #ffc273;
+    transform:
+        rotateX(0deg)
+        rotateY(-40deg)
+        rotateZ(0deg);
 }
 .title .letter:hover:after{
-  transform:
-    scale(1.08,1)
-    rotateX(0deg)
-    rotateY(40deg)
-    rotateZ(0deg)
-    skew(0deg,22deg);
+    transform:
+        scale(1.08,1)
+        rotateX(0deg)
+        rotateY(40deg)
+        rotateZ(0deg)
+        skew(0deg,22deg);
 }
 
 #blockchain {
@@ -143,6 +145,9 @@ html, body {margin:0;padding:0;height:100%;}
     margin-left: 5%;
     font-size: 3vmax;
     margin-bottom: 3%;
+}
+#blockchain .title .letter:before{
+    color: rgb(250, 146, 26);
 }
 
 #blockchain #introduction {
@@ -156,4 +161,39 @@ html, body {margin:0;padding:0;height:100%;}
     /* sizes are in chart.js */
 }
 
-#blockchain #procedure {}
+#blockchain #procedure {
+    width: 80%;
+    margin: auto;
+}
+
+#reddit .title {
+    margin-left: 5%;
+    font-size: 3vmax;
+    margin-bottom: 3%;
+}
+#reddit .title .letter:before{
+    color: rgb(255, 68, 0);
+}
+
+#coinmap .title {
+    margin-left: 5%;
+    font-size: 3vmax;
+    margin-bottom: 3%;
+}
+#coinmap .title .letter:before{
+    color: rgb(98, 185, 223);
+}
+
+#coinmap #counts {
+    z-index:1;
+    /* sizes are in chart.js */
+}
+
+#conclusion .title {
+    margin-left: 5%;
+    font-size: 3vmax;
+    margin-bottom: 3%;
+}
+#conclusion .title .letter:before{
+    color: rgba(204, 247, 84, 0.671);
+}

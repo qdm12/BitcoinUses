@@ -341,8 +341,7 @@ function configureBlockchainCharts() {
         };
 
         // Procedure
-        //var $ = go.GraphObject.make;
-        //var myDiagram = $(go.Diagram, "procedure");
+        // TODO
 
         drawSectionCharts("blockchain");
     }
@@ -379,13 +378,9 @@ function configureCoinmapCharts() {
             isStacked: 'percent'
         };
 
+        // Procedure
+        // TODO
+
         drawSectionCharts("coinmap");
     }
 }
-
-
-
-
-
-
-

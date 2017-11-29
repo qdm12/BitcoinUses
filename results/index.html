@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.7.0/flowchart.min.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/script.js"></script>
 </head>
@@ -113,26 +114,41 @@
             <div class="letter" data-letter="N">N</div>
         </div>
         <div id="introduction">
-            The Bitcoin blockchain was analyzed from 2009 up to November 2017 to estimate the uses of bitcoins.
-            <br><br>
-            The two main results researched are:
-            <ul>
-                <li>The monthly counts of transaction outputs belonging to different USD ranges</li>
-                <li>The monthly cumulate amounts of these outputs belonging to different USD ranges</li>
-            </ul>
-            The following transaction outputs are ignored for this analysis:
-            <ul>
-                <li>Miner rewards, known as coinbase transactions</li>
-                <li>Self-transfers of funds, likely to be single-input, single-ouput transactions</li>
-                <li>Change outputs, likely to be the largest output of a transaction</li>
-            </ul>
+            <div class="text">
+                The Bitcoin blockchain was analyzed from 2009 up to November 2017 to estimate the uses of bitcoins.
+                <br><br>
+                The two main results researched are:
+                <ul>
+                    <li>The monthly counts of transaction outputs belonging to different USD ranges</li>
+                    <li>The monthly cumulative amounts of these outputs belonging to different USD ranges</li>
+                </ul>
+                The following transaction outputs are ignored for this analysis:
+                <ul>
+                    <li>Miner rewards, known as coinbase transactions</li>
+                    <li>Self-transfers of funds, likely to be single-input, single-ouput transactions</li>
+                    <li>Change outputs, likely to be the largest output of a transaction</li>
+                </ul>
+                The following four charts represent the data obtained.
+            </div>
         </div>
         <div id="blockchainCounts"></div>
+        <div class="text">
+            The percentages of monthly ouputs per USD range is plotted to see how trends changed in a clearer way
+        </div>
         <div id="blockchainCountspercent"></div>
         <div id="blockchainAmounts"></div>
+        <div class="text">
+            The percentages of monthly USD transferred per output USD range is also plotted.
+        </div>
+        <div id="blockchainAmountspercent"></div>
+        <div class="text">
+            The following two charts focuses on USD ranges below USD 300.00
+        </div>
         <div id="blockchainCountssmall"></div>
         <div id="blockchainAmountssmall"></div>
-        <div id="blockchainAmountspercent"></div>
+        <div class="text">
+            The diagram below describes how the data was obtained using big data tools.
+        </div>    
         <div id="blockchainProcedure"></div>
     </div>
 
@@ -176,6 +192,22 @@
             <div class="letter" data-letter="O">O</div>
             <div class="letter" data-letter="N">N</div>
         </div>
+        <div class="text">
+            The data
+        </div>
+        <div class="text">
+            The data
+        </div>
+        <div class="text">
+            The data
+        </div>
+        <div class="text">
+            The data
+        </div>
+        <div class="text">
+            The data
+        </div>
+        <div id="emptyBottom">x</div>
     </div>
 </div>
 

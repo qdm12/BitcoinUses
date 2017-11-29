@@ -47,13 +47,27 @@ html, body {margin:0;padding:0;height:100%;}
 
 .section {
     position: static;
+    padding-top: 7%;
+}
+
+.text {
+    width: 90%;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 0.3vw;
+    transition:all 0.7s;
+    -webkit-transition:all 0.7s;
+    -moz-transition:all 0.7s;
+    -o-transition:all 0.7s;
+    -ms-transition:all 0.7s;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Lato:900);
 #introduction .title {
     width: 100%;
     margin: auto;
-    margin-top: 1vh;
+    margin-bottom: 1vh;
     text-align: center;
 }
 .title .letter {
@@ -67,11 +81,11 @@ html, body {margin:0;padding:0;height:100%;}
     z-index: 1;
 }
 #introduction #title .letter {
-    font-size: 4vw;
+    font-size: 3.3vmax;
     margin-right: 0.3vw;    
 }
 #introduction #subtitle .letter {
-    font-size: 2vw;
+    font-size: 2.3vmax;
     margin-right: 0.15vw;
 }
 #introduction .letter:before{
@@ -137,10 +151,6 @@ html, body {margin:0;padding:0;height:100%;}
         skew(0deg,22deg);
 }
 
-#blockchain {
-    padding-top: 7%;
-}
-
 #blockchain .title {
     margin-left: 5%;
     font-size: 3vmax;
@@ -151,9 +161,7 @@ html, body {margin:0;padding:0;height:100%;}
 }
 
 #blockchain #introduction {
-    width: 90%;
-    margin: auto;
-    font-size: 1.4vw;
+
 }
 
 #blockchain #counts,#countspercent,#amounts,#amountspercent {
@@ -166,26 +174,18 @@ html, body {margin:0;padding:0;height:100%;}
     margin: auto;
 }
 
-#reddit {
-    padding-top: 7%;
-}
-
 #reddit .title {
     margin-left: 5%;
-    font-size: 3vmax;
+    font-size: 3.6vmax;
     margin-bottom: 3%;
 }
 #reddit .title .letter:before{
     color: rgb(255, 68, 0);
 }
 
-#coinmap {
-    padding-top: 7%;
-}
-
 #coinmap .title {
     margin-left: 5%;
-    font-size: 3vmax;
+    font-size: 3.6vmax;
     margin-bottom: 3%;
 }
 #coinmap .title .letter:before{
@@ -204,4 +204,9 @@ html, body {margin:0;padding:0;height:100%;}
 }
 #conclusion .title .letter:before{
     color: rgba(204, 247, 84, 0.671);
+}
+#conclusion #emptyBottom {
+    margin-top:10%;
+    margin-bottom:0;
+    opacity: 0;
 }

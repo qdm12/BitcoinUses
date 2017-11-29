@@ -3,6 +3,18 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     isMobile = true;
 }
 
+function resizeText() {
+    var size = 0;
+    if (isMobile) {
+        size = $(window).width() * 0.01;
+    } else {
+        size = $(window).width() * 0.014;
+    }
+    $(".text").css({
+        "font-size":size.toString() + "px",
+    });
+}
+
 function smoothScrolling() {
     $('a').click(function(){
         $('html, body').animate({
@@ -72,23 +84,30 @@ function bannerOpacity() {
     });
 }
 
-$(document).ready( function() { /* executes first */
+window.onload = function(){ /* executes first */
+    resizeText();
     bannerOpacity();
     if(isMobile){
         console.log('Mobile detected');
     } else {
         console.log('Desktop detected');
     }
-});
-
-window.onload = function(){ /* executes secondly */
-    getBlockchainResults();
-    getCoinmapResults();
-    smoothScrolling();
-    animateTitleRepeat(800);
 };
 
+$(document).ready( function() { /* executes secondly */
+    smoothScrolling();
+    animateTitleRepeat(800);
+    setTimeout(
+        function(){
+            getBlockchainResults();
+            getCoinmapResults();
+        },
+        600
+    );
+});
+
 $(window).resize(function() {
+    resizeText();
     resizeBlockchainCharts();
     drawSectionCharts("blockchain");
     resizeCoinmapCharts();

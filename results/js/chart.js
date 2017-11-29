@@ -178,13 +178,11 @@ function parseCoinmapResults(data) {
     }
 
     // Make the counts cumulative
-    /*for (i = 0; i < Data.coinmap.counts.length; i++) {
+    for (i = 1; i < Data.coinmap.counts.length; i++) {
         for (j = 1; j < Data.coinmap.types.length; j++) {
-            for (k = 0; k < i; k++) {
-                Data.coinmap.counts[i][j] += Data.coinmap.counts[k][j];
-            }
+            Data.coinmap.counts[i][j] += Data.coinmap.counts[i-1][j];
         }
-    }*/
+    }
 }
 
 function percentToPx(percent, dimension) {
@@ -311,7 +309,7 @@ function configureCoinmapCharts() {
             .concat(Data.coinmap.counts) // data
         );
         Charts.coinmap.counts.options = {
-            title:'Monthly number of venues per venue type',
+            title:'Monthly cumulative number of venues per venue type',
             backgroundColor: {fill:'transparent'},
             vAxis: {title: 'Number of venues'},
             isStacked: 'absolute'
@@ -323,7 +321,7 @@ function configureCoinmapCharts() {
         );
         Charts.coinmap.countspercent.data = Charts.coinmap.counts.data;
         Charts.coinmap.countspercent.options = {
-            title:'Monthly percentage of venues per venue type',
+            title:'Monthly percentage cumulative venues per venue type',
             backgroundColor: {fill:'transparent'},
             vAxis: {title: 'Percentage of number of venues'},
             isStacked: 'percent'

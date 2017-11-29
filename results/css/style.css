@@ -166,6 +166,10 @@ html, body {margin:0;padding:0;height:100%;}
     margin: auto;
 }
 
+#reddit {
+    padding-top: 7%;
+}
+
 #reddit .title {
     margin-left: 5%;
     font-size: 3vmax;
@@ -173,6 +177,10 @@ html, body {margin:0;padding:0;height:100%;}
 }
 #reddit .title .letter:before{
     color: rgb(255, 68, 0);
+}
+
+#coinmap {
+    padding-top: 7%;
 }
 
 #coinmap .title {

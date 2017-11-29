@@ -6,13 +6,15 @@ var Data = {
         amounts: [], // per period
     },
     reddit: {
-
+        keywords: [],
+        periods: [],
+        counts: [], // per period
     },
     coinmap: {
         types: [],
         periods: [],
         counts: [], // per period
-    }   
+    }
 };
 
 var Charts = {
@@ -33,6 +35,16 @@ var Charts = {
             options: null,
         },
         amountspercent: {
+            chart: null,
+            data: null,
+            options: null,
+        },
+        countssmall: {
+            chart: null,
+            data: null,
+            options: null,
+        },
+        amountssmall: {
             chart: null,
             data: null,
             options: null,
@@ -198,7 +210,7 @@ function percentToPx(percent, dimension) {
 }
 
 function resizeBlockchainCharts() {
-    $("#blockchainCounts,#blockchainCountspercent,#blockchainAmounts,#blockchainAmountspercent").css({
+    $("#blockchainCounts,#blockchainCountspercent,#blockchainAmounts,#blockchainAmountspercent,#blockchainAmountssmall,#blockchainCountssmall").css({
         width: percentToPx(100, "w"),
         height: percentToPx(50, "h"),
     });
@@ -260,7 +272,7 @@ function configureBlockchainCharts() {
             vAxis: {title: 'Percentage of number of outputs'},
             isStacked: 'percent'
         };
-        
+
         // Monthly USD transferred per output USD range
         Charts.blockchain.amounts.chart = new google.visualization.SteppedAreaChart(
             document.getElementById('blockchainAmounts')
@@ -286,6 +298,46 @@ function configureBlockchainCharts() {
             backgroundColor: {fill:'transparent'},
             vAxis: {title: 'Percentage of total USD transferred'},
             isStacked: 'percent'
+        };
+
+        N_RANGES = 6;
+        // Monthly number of outputs per USD range, up to range 6
+        Charts.blockchain.countssmall.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('blockchainCountssmall')
+        );
+        var smallRanges = Data.blockchain.ranges.slice(0,N_RANGES);
+        var smallCounts = [];
+        for (var i = 0; i < Data.blockchain.counts.length; i++) {
+            smallCounts.push(Data.blockchain.counts[i].splice(0,N_RANGES + 1));
+        }
+        Charts.blockchain.countssmall.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(smallRanges)] // legend
+            .concat(smallCounts) // data
+        );
+        Charts.blockchain.countssmall.options = {
+            title:'Monthly number of outputs per USD range (small USD ranges)',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of outputs'},
+            isStacked: 'absolute'
+        };
+
+        // Monthly USD transferred per output USD range, up to range 6
+        Charts.blockchain.amountssmall.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('blockchainAmountssmall')
+        );
+        var smallAmounts = [];
+        for (var i = 0; i < Data.blockchain.amounts.length; i++) {
+            smallAmounts.push(Data.blockchain.amounts[i].splice(0,N_RANGES + 1));
+        }
+        Charts.blockchain.amountssmall.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(smallRanges)] // legend
+            .concat(smallAmounts) // data
+        );
+        Charts.blockchain.amountssmall.options = {
+            title:'Monthly USD transferred per output USD range (small USD ranges)',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of outputs'},
+            isStacked: 'absolute'
         };
 
         // Procedure

@@ -11,7 +11,7 @@ function resizeText() {
         size = $(window).width() * 0.014;
     }
     $(".text").css({
-        "font-size":size.toString() + "px",
+        "font-size":size + "px",
     });
 }
 
@@ -26,11 +26,11 @@ function smoothScrolling() {
 
 function animateTitleWord(parent, wordIndex, period) {
     // parent is title or subtitle
-    $("#introduction #" + parent + " #word" + wordIndex.toString())
+    $("#introduction #" + parent + " #word" + wordIndex)
     .animate({
         "opacity": "1.00",
     }, period / 2, function() {
-        $("#introduction #" + parent + " #word" + wordIndex.toString()).animate({
+        $("#introduction #" + parent + " #word" + wordIndex).animate({
             "opacity": "0.75",
         }, period * 10);
     });
@@ -86,7 +86,7 @@ function bannerOpacity() {
 
 window.onload = function(){ /* executes first */
     resizeText();
-    bannerOpacity();
+    smoothScrolling();
     if(isMobile){
         console.log('Mobile detected');
     } else {
@@ -95,21 +95,18 @@ window.onload = function(){ /* executes first */
 };
 
 $(document).ready( function() { /* executes secondly */
-    smoothScrolling();
+    bannerOpacity();
     animateTitleRepeat(800);
     setTimeout(
         function(){
             getBlockchainResults();
             getCoinmapResults();
         },
-        600
+        700
     );
 });
 
 $(window).resize(function() {
     resizeText();
-    resizeBlockchainCharts();
-    drawSectionCharts("blockchain");
-    resizeCoinmapCharts();
-    drawSectionCharts("coinmap");
+    drawSectionCharts(["blockchain", "reddit", "coinmap"]);
 });

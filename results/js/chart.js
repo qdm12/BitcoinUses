@@ -112,13 +112,12 @@ function intToMonth(integer) {
     }
 }
 
-function getBlockchainResults() { // execute first
+function getBlockchainResults() {
     return $.ajax({
         url: 'https://raw.githubusercontent.com/qdm12/BitcoinUses/master/blockchain/analysis/results.csv',
         dataType: 'text',
     })
     .done(function(data) {
-        resizeBlockchainCharts();
         parseBlockchainResults(data);
         configureBlockchainCharts();
     })
@@ -133,7 +132,6 @@ function getCoinmapResults() {
         dataType: 'text',
     })
     .done(function(data) {
-        resizeCoinmapCharts();
         parseCoinmapResults(data);
         configureCoinmapCharts();
     })
@@ -197,55 +195,23 @@ function parseCoinmapResults(data) {
     }
 }
 
-function percentToPx(percent, dimension) {
-    percent = percent / 100;
-    ret = 0;
-    if (dimension == "w") {
-        if (percent > 0.99) { percent = 0.99; }
-        ret = Math.floor(percent*$(window).width());
-    } else {
-        ret = Math.floor(percent*$(window).height());
-    }
-    return ret.toString() + "px";
-}
-
-function resizeBlockchainCharts() {
-    $("#blockchainCounts,#blockchainCountspercent,#blockchainAmounts,#blockchainAmountspercent,#blockchainAmountssmall,#blockchainCountssmall").css({
-        width: percentToPx(100, "w"),
-        height: percentToPx(50, "h"),
-    });
-    $("#blockchainProcedure").css({
-        width: percentToPx(100, "w"),
-        height: percentToPx(50, "h"),
-    });
-}
-
-function resizeCoinmapCharts() {
-    $("#coinmapCounts,#coinmapCountspercent").css({
-        width: percentToPx(100, "w"),
-        height: percentToPx(50, "h"),
-    });
-    $("#coinmapProcedure").css({
-        width: percentToPx(100, "w"),
-        height: percentToPx(50, "h"),
-    });
-}
-
-function drawSectionCharts(section) {
-    for(var chartName in Charts[section]) {
-        if (Charts[section][chartName].chart != null) {
-            Charts[section][chartName].chart.draw(
-                Charts[section][chartName].data,
-                Charts[section][chartName].options
-            );
+function drawSectionCharts(sections) {
+    for (var i = 0; i < sections.length; i++) {
+        for(var chartName in Charts[sections[i]]) {
+            if (Charts[sections[i]][chartName].chart != null) {
+                Charts[sections[i]][chartName].chart.draw(
+                    Charts[sections[i]][chartName].data,
+                    Charts[sections[i]][chartName].options
+                );
+            }
         }
     }
 }
 
 function configureBlockchainCharts() {
     google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-    function drawCharts() {
+    google.charts.setOnLoadCallback(drawGoogleCharts);
+    function drawGoogleCharts() {
         // Monthly number of outputs per USD range
         Charts.blockchain.counts.chart = new google.visualization.SteppedAreaChart(
             document.getElementById('blockchainCounts')
@@ -340,17 +306,14 @@ function configureBlockchainCharts() {
             isStacked: 'absolute'
         };
 
-        // Procedure
-        // TODO
-
-        drawSectionCharts("blockchain");
+        drawSectionCharts(["blockchain"]);
     }
 }
 
 function configureCoinmapCharts() {
     google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-    function drawCharts() {
+    google.charts.setOnLoadCallback(drawGoogleCharts);
+    function drawGoogleCharts() {
         // Monthly number of venues per venue type
         Charts.coinmap.counts.chart = new google.visualization.SteppedAreaChart(
             document.getElementById('coinmapCounts')
@@ -381,6 +344,6 @@ function configureCoinmapCharts() {
         // Procedure
         // TODO
 
-        drawSectionCharts("coinmap");
+        drawSectionCharts(["coinmap"]);
     }
 }

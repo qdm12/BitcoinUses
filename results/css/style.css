@@ -62,6 +62,25 @@ html, body {margin:0;padding:0;height:100%;}
     -o-transition:all 0.7s;
     -ms-transition:all 0.7s;
 }
+.barchart {
+    z-index:1;
+    width:100vw;
+    height:50vh;
+}
+.flowchart {
+    position:relative;
+    display:flex;
+    left:5%;
+    width:90%;
+    height:70vh;
+    justify-content:center;
+    opacity: 0.00;
+    transition:all 1.5s;
+    -webkit-transition:all 1.5s;
+    -moz-transition:all 1.5s;
+    -o-transition:all 1.5s;
+    -ms-transition:all 1.5s;
+}
 
 @import url(https://fonts.googleapis.com/css?family=Lato:900);
 #introduction .title {
@@ -164,16 +183,6 @@ html, body {margin:0;padding:0;height:100%;}
 
 }
 
-#blockchain #counts,#countspercent,#amounts,#amountspercent {
-    z-index: 1;
-    /* sizes are in chart.js */
-}
-
-#blockchain #procedure {
-    width: 80%;
-    margin: auto;
-}
-
 #reddit .title {
     margin-left: 5%;
     font-size: 3.6vmax;
@@ -192,11 +201,6 @@ html, body {margin:0;padding:0;height:100%;}
     color: rgb(98, 185, 223);
 }
 
-#coinmap #counts {
-    z-index:1;
-    /* sizes are in chart.js */
-}
-
 #conclusion .title {
     margin-left: 5%;
     font-size: 3vmax;
@@ -210,3 +214,4 @@ html, body {margin:0;padding:0;height:100%;}
     margin-bottom:0;
     opacity: 0;
 }
+

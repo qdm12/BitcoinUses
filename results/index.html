@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <title>Bitcoin Uses</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.7.0/flowchart.min.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/script.js"></script>
 </head>
@@ -131,25 +129,26 @@
                 The following four charts represent the data obtained.
             </div>
         </div>
-        <div id="blockchainCounts"></div>
+        <div id="blockchainCounts" class="barchart"></div>
         <div class="text">
             The percentages of monthly ouputs per USD range is plotted to see how trends changed in a clearer way
         </div>
-        <div id="blockchainCountspercent"></div>
-        <div id="blockchainAmounts"></div>
+        <div id="blockchainCountspercent" class="barchart"></div>
+        <div id="blockchainAmounts" class="barchart"></div>
         <div class="text">
             The percentages of monthly USD transferred per output USD range is also plotted.
         </div>
-        <div id="blockchainAmountspercent"></div>
+        <div id="blockchainAmountspercent" class="barchart"></div>
         <div class="text">
             The following two charts focuses on USD ranges below USD 300.00
         </div>
-        <div id="blockchainCountssmall"></div>
-        <div id="blockchainAmountssmall"></div>
+        <div id="blockchainCountssmall" class="barchart"></div>
+        <div id="blockchainAmountssmall" class="barchart"></div>
         <div class="text">
             The diagram below describes how the data was obtained using big data tools.
-        </div>    
-        <div id="blockchainProcedure"></div>
+        </div>
+        <div id="blockchainProcedure" class="flowchart"></div>
+
     </div>
 
     <div class="section" id="reddit">
@@ -161,7 +160,9 @@
             <div class="letter" data-letter="I">I</div>
             <div class="letter" data-letter="T">T</div>
         </div>
-        <div id="redditChart"></div>
+        <div id="redditCounts" class="barchart"></div>
+        <div id="redditCountspercent" class="barchart"></div>
+        <div id="redditProcedure" class="flowchart"></div>
     </div>
 
     <div class="section" id="coinmap">
@@ -174,9 +175,9 @@
             <div class="letter" data-letter="A">A</div>
             <div class="letter" data-letter="P">P</div>
         </div>
-        <div id="coinmapCounts"></div>
-        <div id="coinmapCountspercent"></div>
-        <div id="coinmapProcedure"></div>
+        <div id="coinmapCounts" class="barchart"></div>
+        <div id="coinmapCountspercent" class="barchart"></div>
+        <div id="coinmapProcedure" class="flowchart"></div>
     </div>
 
     <div class="section" id="conclusion">
@@ -191,18 +192,6 @@
             <div class="letter" data-letter="I">I</div>
             <div class="letter" data-letter="O">O</div>
             <div class="letter" data-letter="N">N</div>
-        </div>
-        <div class="text">
-            The data
-        </div>
-        <div class="text">
-            The data
-        </div>
-        <div class="text">
-            The data
-        </div>
-        <div class="text">
-            The data
         </div>
         <div class="text">
             The data

@@ -1,4 +1,15 @@
 use bitcoin_uses;
+
+CREATE EXTERNAL TABLE IF NOT EXISTS coinmap (
+	category string, 
+	city string, 
+	country string, 
+	created_on timestamp, 
+	name string
+) 
+row format delimited fields terminated by ','
+location '/user/sna219/coinmap/output/cleaner/';
+
 CREATE EXTERNAL TABLE IF NOT EXISTS blockchain (
     period TIMESTAMP,
     count_range1 INT,
@@ -53,3 +64,16 @@ SELECT period,
 FROM blockchain;
 
 DROP TABLE blockchain;
+
+select 
+    category, 
+	from_unixtime(unix_timestamp(trunc(created_on, 'MM')), 'yyyy-MM') as month_added, 
+	count(category) as count 
+from 
+ 	coinmap 
+group by 
+	category, 
+	from_unixtime(unix_timestamp(trunc(created_on, 'MM')), 'yyyy-MM') 
+order by 
+	category, 
+	from_unixtime(unix_timestamp(trunc(created_on, 'MM')), 'yyyy-MM');

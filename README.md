@@ -1,13 +1,15 @@
 # BitcoinUses
 A big data analytics project on how bitcoins have been used since their launch in 2009
 
+See the website at [**qdm12.github.io/BitcoinUses/results**](https://qdm12.github.io/BitcoinUses/results)
+
 ## Results
 Refer to [*results/*](results) for website access and more information
 
 ## Data sources
 - [Bitcoin blockchain](https://blockchain.info/)
-- [CoinMap](https://coinmap.org/welcome/)
 - [Reddit](https://www.reddit.com/dev/api/)
+- [CoinMap](https://coinmap.org/welcome/)
 
 ## Bitcoin blockchain
 

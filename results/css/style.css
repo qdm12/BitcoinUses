@@ -68,13 +68,7 @@ html, body {margin:0;padding:0;height:100%;}
     height:50vh;
 }
 .flowchart {
-    position:relative;
-    display:flex;
-    left:5%;
-    width:90%;
-    height:70vh;
-    justify-content:center;
-    opacity: 0.00;
+    width: 90%;
     transition:all 1.5s;
     -webkit-transition:all 1.5s;
     -moz-transition:all 1.5s;

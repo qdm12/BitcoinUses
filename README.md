@@ -29,5 +29,17 @@ Refer to [*blockchain/analysis/readme*](blockchain/analysis/readme.md)
 
 ## Reddit
 ### Ingest the data
+- Done with the Python script at [reddit/scrapping/reddit_import.py](reddit/scrapping/reddit_import.py)
+- Uses the Reddit API
+- Gets the following data:
+	- Title of posts containing the keyword **bitcoin**
+	- The date of the post
+	- The score of the post
+	- The number of comments of the post
+	- The textual content of comments of the post
+- This raw data is at [reddit/scrapping/](reddit/scrapping/)
+	
 ### Profiling the data
+- The data is cleaned and then profiled
+
 ### Analyzing the data

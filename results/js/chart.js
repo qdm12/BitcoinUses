@@ -333,7 +333,19 @@ function configureCoinmapCharts() {
         Charts.coinmap.countspercent.chart = new google.visualization.SteppedAreaChart(
             document.getElementById('coinmapCountspercent')
         );
-        Charts.coinmap.countspercent.data = Charts.coinmap.counts.data;
+        var reducedTypes = Data.coinmap.types;
+        var reducedCounts = Data.coinmap.counts;
+        var index = reducedTypes.indexOf("default");
+        if (index > -1) {
+            reducedTypes.splice(index,1);
+            for (var i = 0; i < reducedCounts.length; i++) {
+                reducedCounts[i].splice(index+1,1);
+            }
+        }
+        Charts.coinmap.countspercent.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(reducedTypes)] // legend
+            .concat(reducedCounts) // data
+        );
         Charts.coinmap.countspercent.options = {
             title:'Monthly percentage cumulative venues per venue type',
             backgroundColor: {fill:'transparent'},

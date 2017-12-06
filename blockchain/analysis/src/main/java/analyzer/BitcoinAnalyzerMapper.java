@@ -29,34 +29,12 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
         return bitcoinPrice * 0.00000001;
     }
     
-    private boolean looksCoinbase(List<Long> amounts, long epochTime) {
-        if (amounts.size() == 1) { 
-            long coinbaseReward;
-            if (epochTime < 1320175479) { // before 2012-11-28 at 15:24:38 UTC
-                coinbaseReward = 5000000000L;
-            } else if (epochTime < 1467405973) { // before 2016-07-09 16:46:13
-                coinbaseReward = 2500000000L;
-            } else if (epochTime < 1591029000) { // approximation for 2020-06-12
-                coinbaseReward = 1250000000L;
-            } else {
-                coinbaseReward = 625000000L;
-            }
-            if (amounts.get(0) > coinbaseReward * 0.95 && 
-                amounts.get(0) < coinbaseReward * 1.05) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     private int epochToBitcoinPeriod(long epochTime) {
         float time = epochTime - 1230940800;
         float period = this.params.getPeriod();
         int periodNumber = (int)(time / period);
         return periodNumber;
     }
-    
-
     
     @Override
     public void map(BytesWritable key, BitcoinBlock value, Context context) throws IOException, InterruptedException {
@@ -70,16 +48,17 @@ public  class BitcoinAnalyzerMapper  extends Mapper<BytesWritable, BitcoinBlock,
         List<BitcoinTransaction> transactions = value.getTransactions();
         List<Long> blockAmounts = new ArrayList<Long>();
         for (BitcoinTransaction tx : transactions) {
+            if (tx.getListOfInputs().size() == 0) {
+                // ignore coinbase transactions
+                continue;
+            }
             List<Long> txAmounts = new ArrayList<Long>();
             for (BitcoinTransactionOutput output : tx.getListOfOutputs()) {
                 txAmounts.add(output.getValue());
             }
-            if (looksCoinbase(txAmounts, value.getTime())) {
-                // ignore coinbase transactions
-                continue;
-            } else if (txAmounts.size() == 1) {
+            if (txAmounts.size() == 1) {
                 // ignore 1-input -> 1-output transactions
-                // likely to be a transfer of wallet, this is ignored
+                // likely to be a "self-transfer"
                 continue;
             }
             // > 1 output

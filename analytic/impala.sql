@@ -65,7 +65,7 @@ FROM blockchain;
 
 DROP TABLE blockchain;
 
-DROP TABLE IF EXISTS reddit_table;
+DROP TABLE IF EXISTS reddit;
 CREATE EXTERNAL TABLE reddit
 (
    year INT,
@@ -100,4 +100,4 @@ from
 where
   count >= 100
 order by 
-  count
+  month,count

@@ -113,7 +113,7 @@
         </div>
         <div id="introduction">
             <div class="text">
-                The Bitcoin blockchain was analyzed from 2009 up to November 2017 to estimate the uses of bitcoins.
+                The Bitcoin blockchain was analyzed from 2009 up to December 2017 to estimate the uses of bitcoins.
                 <br><br>
                 The two main results researched are:
                 <ul>
@@ -124,7 +124,7 @@
                 <ul>
                     <li>Miner rewards, known as coinbase transactions</li>
                     <li>Self-transfers of funds, likely to be single-input, single-ouput transactions</li>
-                    <li>Change outputs, likely to be the largest output of a transaction</li>
+                    <li>Change outputs, likely to be the largest output of a multiple output transaction</li>
                 </ul>
                 The following four charts represent the data obtained.
             </div>
@@ -140,17 +140,14 @@
         </div>
         <div id="blockchainAmountspercent" class="barchart"></div>
         <div class="text">
-            The following two charts focuses on USD ranges below USD 300.00
+            The following two charts focuses on USD ranges below USD 300 and since January 2013
         </div>
         <div id="blockchainCountssmall" class="barchart"></div>
         <div id="blockchainAmountssmall" class="barchart"></div>
         <div class="text">
             The diagram below describes how the data was obtained using big data tools.
         </div>
-        <div id="blockchainProcedure" class="flowchart">
-            <img src="images/blockchainProcedure.png">
-        </div>
-
+        <img src="images/blockchainProcedure.png" class="flowchart">
     </div>
 
     <div class="section" id="reddit">
@@ -162,13 +159,44 @@
             <div class="letter" data-letter="I">I</div>
             <div class="letter" data-letter="T">T</div>
         </div>
+        <div id="introduction">
+            <div class="text">
+                Reddit data was scrapped and analyzed from 2009 up to December 2017 to estimate the uses of bitcoins.
+                <br><br>
+                The aim is to count the monthly number of occurrences of Bitcoin related keywords in Bitcoin related posts, 
+                comments and threads. The following words were counted:
+                <ul>
+                    <li>gold</li>
+                    <li>store</li>
+                    <li>atm</li>
+                    <li>tip</li>
+                    <li>betting</li>
+                    <li>goods</li>
+                    <li>art</li>
+                    <li>cafe</li>
+                    <li>diamond</li>
+                    <li>grocery</li>
+                    <li>hotel</li>
+                    <li>microtransaction</li>
+                    <li>mixing</li>
+                    <li>restaurant</li>
+                    <li>salary</li>
+                    <li>travel</li>
+                </ul>
+                The following four charts represent the data obtained.
+            </div>
+        </div>
         <div id="redditCounts" class="barchart"></div>
         <div id="redditCountspercent" class="barchart"></div>
+        <div class="text">
+            The following two charts focuses on periods since January 2013
+        </div>
         <div id="redditCountssmall" class="barchart"></div>
         <div id="redditCountssmallpercent" class="barchart"></div>
-        <div id="redditProcedure" class="flowchart">
-            <img src="images/redditProcedure.png">
+        <div class="text">
+            The diagram below describes how the data was obtained using big data tools.
         </div>
+        <img src="images/redditProcedure.png" class="flowchart">
     </div>
 
     <div class="section" id="coinmap">
@@ -181,12 +209,39 @@
             <div class="letter" data-letter="A">A</div>
             <div class="letter" data-letter="P">P</div>
         </div>
-        <div id="coinmapCounts" class="barchart"></div>
-        <div id="coinmapCountspercent" class="barchart"></div>
-        <div id="coinmapProcedure" class="flowchart">
-            <img src="images/coinmapProcedure.png">
+        <div id="introduction">
+            <div class="text">
+                Coinmap entire data was obtained from their API and analyzed.
+                <br><br>
+                The aim is to count the monthly cumulative number of venues accepting bitcoins per venue type.
+                The following venue types were counted:
+                <ul>
+                    <li>shopping</li>
+                    <li>food</li>
+                    <li>lodging</li>
+                    <li>atm</li>
+                    <li>cafe</li>
+                    <li>nightlife</li>
+                    <li>attraction</li>
+                    <li>grocery</li>
+                    <li>sports</li>
+                    <li>transport</li>
+                    <li>trezor retailer</li>
+                    <li>drug store</li>
+                </ul>
+                The following two charts represent the data obtained.
+            </div>
         </div>
-    </div>
+        <div id="coinmapCounts" class="barchart"></div>
+        <div class="text">
+            The relative percentages of monthly cumulative venues per venue type is plotted to see how trends changed more clearly.
+        </div>
+        <div id="coinmapCountspercent" class="barchart"></div>
+        <div class="text">
+            The diagram below describes how the data was obtained using big data tools.
+        </div>
+        <img src="images/coinmapProcedure.png" class="flowchart">
+     </div>
 
     <div class="section" id="conclusion">
         <div id="title" class="title">

@@ -84,7 +84,7 @@ function bannerOpacity() {
     });
 }
 
-window.onload = function(){ /* executes first */
+window.onload = function() { /* executes first */
     resizeText();
     smoothScrolling();
     if(isMobile){
@@ -94,17 +94,15 @@ window.onload = function(){ /* executes first */
     }
 };
 
-$(document).ready( function() { /* executes secondly */
+$(document).ready(function() { /* executes secondly */
     bannerOpacity();
     animateTitleRepeat(800);
-    setTimeout(
-        function(){
-            getBlockchainResults();
-            getCoinmapResults();
-        },
-        700
-    );
+    setTimeout(function(){getBlockchainResults();}, 400);
+    setTimeout(function(){getRedditResults();}, 700);
+    setTimeout(function(){getCoinmapResults();}, 1100);
 });
+
+
 
 $(window).resize(function() {
     resizeText();

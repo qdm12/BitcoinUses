@@ -49,14 +49,14 @@ var Charts = {
             data: null,
             options: null,
         },
-        procedure: {
+    },
+    reddit: {
+        counts: {
             chart: null,
             data: null,
             options: null,
         },
-    },
-    reddit: {
-        procedure: {
+        countspercent: {
             chart: null,
             data: null,
             options: null,
@@ -69,11 +69,6 @@ var Charts = {
             options: null,
         },
         countspercent: {
-            chart: null,
-            data: null,
-            options: null,
-        },
-        procedure: {
             chart: null,
             data: null,
             options: null,
@@ -126,6 +121,20 @@ function getBlockchainResults() {
     });
 }
 
+function getRedditResults() {
+    return $.ajax({
+        url: 'https://raw.githubusercontent.com/acpg/Reddit/master/output/reddit_counts.csv',
+        dataType: 'text',
+    })
+    .done(function(data) {
+        parseRedditResults(data);
+        configureRedditCharts();
+    })
+    .fail(function(data) {
+        alert("Reddit raw results were not found !");
+    });
+}
+
 function getCoinmapResults() {
     return $.ajax({
         url: 'https://raw.githubusercontent.com/sadam0930/coinmap-etl/master/coinmap-counts.csv',
@@ -164,6 +173,26 @@ function parseBlockchainResults(data) {
         for (j = 1; j < Data.blockchain.ranges.length + 1; j++) {
             Data.blockchain.counts[i].push(Number(row[j]));
             Data.blockchain.amounts[i].push(Number(row[j + Data.blockchain.ranges.length]));
+        }
+    }
+}
+
+function parseRedditResults(data) {
+    var i, j, k;
+    var rows = data.split(/\r?\n|\r/);
+    legend = rows[0].split(',');
+    rows.shift();
+    for (i = 1; i < legend.length - 1; i++) { // ignores grand total
+        Data.reddit.keywords.push(legend[i]);
+    }
+    for (i = 0; i < rows.length - 1; i++) { // ignores grand total
+        row = rows[i].split(',');
+        period = row[0].split('-');
+        period = intToMonth(period[1]) + ' ' + period[0];
+        Data.reddit.periods.push(period);
+        Data.reddit.counts.push([period]);
+        for (j = 1; j < Data.reddit.keywords.length+1; j++) { // ignores grand total
+            Data.reddit.counts[i].push(Number(row[j]));
         }
     }
 }
@@ -266,7 +295,6 @@ function configureBlockchainCharts() {
             isStacked: 'percent'
         };
 
-        
         // Ranges and periods of interest
         N_RANGES = 6; // up to USD 300
         // Monthly number of outputs per USD range since January 2013
@@ -314,7 +342,7 @@ function configureBlockchainCharts() {
                 smallAmounts.push(temp.splice(0,N_RANGES + 1));
             }
         }
-        
+
         Charts.blockchain.amountssmall.data = google.visualization.arrayToDataTable(
             [['Period'].concat(smallRanges)] // legend
             .concat(smallAmounts) // data
@@ -327,6 +355,41 @@ function configureBlockchainCharts() {
         };
 
         drawSectionCharts(["blockchain"]);
+    }
+}
+
+function configureRedditCharts() {
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawGoogleCharts);
+    function drawGoogleCharts() {
+        // Monthly counts of keywords
+        Charts.reddit.counts.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('redditCounts')
+        );
+        Charts.reddit.counts.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(Data.reddit.keywords)] // legend
+            .concat(Data.reddit.counts) // data
+        );
+        Charts.reddit.counts.options = {
+            title:'Monthly counts of Bitcoin related keywords on Reddit',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of occurrences'},
+            isStacked: 'absolute'
+        };
+
+        // Monthly percentage of venues per venue type
+        Charts.reddit.countspercent.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('redditCountspercent')
+        );
+        Charts.reddit.countspercent.data = Charts.reddit.counts.data;
+        Charts.reddit.countspercent.options = {
+            title:'Monthly relative percentage of Bitcoin related keywords on Reddit',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Percentage of number of occurrences'},
+            isStacked: 'percent'
+        };
+
+        drawSectionCharts(["reddit"]);
     }
 }
 
@@ -372,9 +435,6 @@ function configureCoinmapCharts() {
             vAxis: {title: 'Percentage of number of venues'},
             isStacked: 'percent'
         };
-
-        // Procedure
-        // TODO
 
         drawSectionCharts(["coinmap"]);
     }

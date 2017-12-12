@@ -61,6 +61,16 @@ var Charts = {
             data: null,
             options: null,
         },
+        countssmall: {
+            chart: null,
+            data: null,
+            options: null,
+        },
+        countssmallpercent: {
+            chart: null,
+            data: null,
+            options: null,
+        },
     },
     coinmap: {
         counts: {
@@ -377,13 +387,54 @@ function configureRedditCharts() {
             isStacked: 'absolute'
         };
 
-        // Monthly percentage of venues per venue type
+        // Monthly percentage of counts of keywords
         Charts.reddit.countspercent.chart = new google.visualization.SteppedAreaChart(
             document.getElementById('redditCountspercent')
         );
         Charts.reddit.countspercent.data = Charts.reddit.counts.data;
         Charts.reddit.countspercent.options = {
             title:'Monthly relative percentage of Bitcoin related keywords on Reddit',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Percentage of number of occurrences'},
+            isStacked: 'percent'
+        };
+
+        // From 2013 only
+        // Monthly counts of keywords since January 2013
+        Charts.reddit.countssmall.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('redditCountssmall')
+        );
+
+        var i, temp;
+        var smallCounts = [];
+        var reached = false;
+        for (i = 0; i < Data.reddit.counts.length; i++) {
+            if (Data.reddit.periods[i] == "Jan 2013") {
+                reached = true;
+            }
+            if (reached) {
+                smallCounts.push(Data.reddit.counts[i]);
+            }
+        }
+
+        Charts.reddit.countssmall.data = google.visualization.arrayToDataTable(
+            [['Period'].concat(Data.reddit.keywords)] // legend
+            .concat(smallCounts) // data
+        );
+        Charts.reddit.countssmall.options = {
+            title:'Monthly number of outputs per USD range since 2013 only',
+            backgroundColor: {fill:'transparent'},
+            vAxis: {title: 'Number of occurrences'},
+            isStacked: 'absolute'
+        };
+
+        // Monthly percentage of counts of keywords since January 2013
+        Charts.reddit.countssmallpercent.chart = new google.visualization.SteppedAreaChart(
+            document.getElementById('redditCountssmallpercent')
+        );
+        Charts.reddit.countssmallpercent.data = Charts.reddit.countssmall.data;
+        Charts.reddit.countssmallpercent.options = {
+            title:'Monthly relative percentage of Bitcoin related keywords on Reddit since 2013 only',
             backgroundColor: {fill:'transparent'},
             vAxis: {title: 'Percentage of number of occurrences'},
             isStacked: 'percent'
